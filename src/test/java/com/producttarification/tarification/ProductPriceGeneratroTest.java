@@ -30,7 +30,7 @@ public class ProductPriceGeneratroTest {
 	public void generateProductPriceOf4ProductWithPriceOf3OfProduct() {
 		Product product = productStub();
 		BigDecimal price = new ProductPriceGenerator().fixPrice(product);
-		assertEquals("26.7", TarificationUtils.formatBigDecimal(price));
+		assertEquals("26.67", TarificationUtils.formatBigDecimal(price));
 		
 	}
 }
