@@ -12,6 +12,6 @@ public class ProductPriceGenerator {
 	 * @return
 	 */
 	public BigDecimal fixPrice(Product product) {
-		return null;
+		return product.getPrice();
 	}
 }
