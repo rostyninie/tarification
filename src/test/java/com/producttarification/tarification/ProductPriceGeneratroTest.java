@@ -27,7 +27,7 @@ public class ProductPriceGeneratroTest {
 			// we difine the group price for 16 ounces directly
 			return new Product("001", null, GROUP, 16, new BigDecimal(1));
 		}else {
-			return new Product("001", new BigDecimal(20), NORMAL);
+			return new Product("001", new BigDecimal(10), NORMAL);
 		}
 	}
  
