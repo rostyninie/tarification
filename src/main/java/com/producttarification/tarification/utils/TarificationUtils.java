@@ -11,7 +11,7 @@ public class TarificationUtils {
 	 * @return
 	 */
 	public static String formatBigDecimal(BigDecimal price) {
-		DecimalFormat df = new DecimalFormat("####.00");
+		DecimalFormat df = new DecimalFormat("#,###.00");
 		return df.format(price);
 	}
 
