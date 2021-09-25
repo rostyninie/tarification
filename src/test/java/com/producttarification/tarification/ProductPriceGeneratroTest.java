@@ -57,7 +57,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceForGiftProductWheWeBuy2ProductAndGet1Test() {
 		Product product = productStub(4);
-		BigDecimal price = new ProductPriceGenerator().fixPrice(product).multiply(new BigDecimal(4));
+		BigDecimal price = new ProductPriceGenerator().fixPrice(product);
 		assertEquals(new BigDecimal("6.68"), price);
 		
 	}
