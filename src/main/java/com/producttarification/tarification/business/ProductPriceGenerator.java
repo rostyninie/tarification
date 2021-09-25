@@ -3,6 +3,8 @@ package com.producttarification.tarification.business;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.producttarification.tarification.models.GiftTarification;
+import com.producttarification.tarification.models.GroupTarification;
 import com.producttarification.tarification.models.Product;
 
 public class ProductPriceGenerator {
@@ -17,25 +19,47 @@ public class ProductPriceGenerator {
 	 * @return
 	 */
 	public BigDecimal fixPrice(Product product) {
-		if(product.getType().equals(NORMAL)) {
-			return product.getPrice();
-		}else if(product.getType().equals(GROUP)) {
-			//fix the price of product when we have price of group of product by divide the price of group
-			//of product by number of product in group
-
-			BigDecimal price = product.getPriceOfGroup()
-					.divide(new BigDecimal(product.getNumberProductByGroup()), 2, RoundingMode.HALF_DOWN);
+		if(product.getTarification().getType().equals(NORMAL)) {
+			return product.getTarification().getPrice();
+		}else if(product.getTarification().getType().equals(GROUP)) {
+			/*fix the price of product when we have price of group of product by divide the price of group
+			of product by number of product in group*/
 			
-			product.setPrice(price);
+			BigDecimal price = null;
+			
+			if(product.getTarification() instanceof GroupTarification && 
+					((GroupTarification)product.getTarification()).getNumberProductByGroup()>0) {
+				
+				GroupTarification tarification = (GroupTarification)product.getTarification();
+				price = tarification.getPriceOfGroup()
+					.divide(new BigDecimal(tarification.getNumberProductByGroup()), 2, RoundingMode.HALF_DOWN);
+			
+				tarification.setPrice(price);
+				product.setTarification(tarification);
+			}
 			
 			return price;
 		}else {
+			/* fix the price of gift product by divide the total price for number of product to get gift by
+			 the number of product to get gift plus the number of gift product*/
 			
-			BigDecimal giftPrice = product.getPrice().multiply(new BigDecimal(product.getNumberProductForGetGift()))
-					.divide(new BigDecimal(product.getNumberProductForGetGift()+product.getNumberOfGift()), 2, RoundingMode.HALF_DOWN);
+			BigDecimal giftPrice = null;
 			
-			product.setGiftPrice(giftPrice);
-			
+			if(product.getTarification() instanceof GiftTarification) {
+				GiftTarification tarification = (GiftTarification)product.getTarification();
+				if((tarification.getNumberProductForGetGift() + tarification.getNumberOfGift())>0) {
+					
+					giftPrice = tarification.getPrice().multiply(new BigDecimal(tarification.getNumberProductForGetGift()))
+							.divide(new BigDecimal(tarification.getNumberProductForGetGift()+tarification.getNumberOfGift()),
+									2, RoundingMode.HALF_DOWN);
+					
+					tarification.setGiftPrice(giftPrice);
+					product.setTarification(tarification);
+					
+					
+				}
+			}
+				
 			return giftPrice;
 		}
 		
