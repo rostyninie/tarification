@@ -3,6 +3,7 @@ package com.producttarification.tarification;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -48,8 +49,14 @@ public class ProductPriceGeneratroTest {
 		}
 	}
 	
-	private Tarification tarificationStub() {
-		return new GroupTarification(1, null, TarificationTypeEnum.GROUP, 3, new BigDecimal(20));
+	private Tarification tarificationStub(int type) {
+		if(type == 1) {
+			return new GroupTarification(1, null, TarificationTypeEnum.GROUP, 3, new BigDecimal(20));
+		}else if(type == 2) {
+			return new GiftTarification(1, new BigDecimal(3), TarificationTypeEnum.GIFT, null, 3, 2);
+		}else {
+			return new Tarification(1, new BigDecimal(12), TarificationTypeEnum.NORMAL);
+		}
 	}
  
 	@Test
@@ -147,8 +154,9 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void productChangeTarificationTest() {
 		Product product = productStub(1);
-		Tarification tarification =  tarificationStub();
+		Tarification tarification =  tarificationStub(1);
 		getProductPriceGenerator().changeProductTarification(product, tarification);
+		
 		assertEquals(TarificationTypeEnum.GROUP, product.getTarification().getType());
 		assertEquals(true, product.getTarification().isActive());
 		assertEquals(TarificationTypeEnum.NORMAL, product.getTarification().getPriviousTarification().getType());
@@ -156,19 +164,60 @@ public class ProductPriceGeneratroTest {
 		
 	}
 	
+	/*
+	 * when product change tarification keep hold tarification for audit and fixe the new price of product with the new 
+	 * tarification type
+	 */
 	@Test
 	public void productChangeTarificationAndFixPriceOfNewTarificationTest() {
 		Product product = productStub(1);
-		Tarification tarification =  tarificationStub();
+		Tarification tarification =  tarificationStub(1);
 		IProductPriceGenerator productPriceTarification = getProductPriceGenerator();
 		productPriceTarification.fixPrice(product);
 		productPriceTarification.changeProductTarification(product, tarification);
+		
 		assertEquals(TarificationTypeEnum.GROUP, product.getTarification().getType());
 		assertEquals(true, product.getTarification().isActive());
 		assertEquals(new BigDecimal("6.67"), product.getTarification().getPrice());
 		assertEquals(TarificationTypeEnum.NORMAL, product.getTarification().getPriviousTarification().getType());
 		assertEquals(false, product.getTarification().getPriviousTarification().isActive());
 		assertEquals(new BigDecimal(20), product.getTarification().getPriviousTarification().getPrice());
+	}
+	
+	/*
+	 * by what the product can change we can at a given time have chronologically all the tarifications 
+	 * that has been made on a product
+	 */
+	@Test
+	public void getChronologieOfTarificationsOfProduct() {
+		Product product = productStub(1);
+		IProductPriceGenerator productPriceTarification = getProductPriceGenerator();
+		productPriceTarification.fixPrice(product);
+		Tarification tarification1 =  tarificationStub(1);
+		productPriceTarification.changeProductTarification(product, tarification1);
+		Tarification tarification2 =  tarificationStub(2);
+		productPriceTarification.changeProductTarification(product, tarification2);
+		Tarification tarification3 =  tarificationStub(3);
+		productPriceTarification.changeProductTarification(product, tarification3);
+		List<Tarification> tarifications = productPriceTarification.getChronologieTarificationsOfProductForAudit(product);
+		
+		assertEquals(TarificationTypeEnum.NORMAL, tarifications.get(0).getType());
+		assertEquals(new BigDecimal(20), tarifications.get(0).getPrice());
+		assertEquals(false, tarifications.get(0).isActive());
+		
+		assertEquals(TarificationTypeEnum.GROUP, tarifications.get(1).getType());
+		assertEquals(new BigDecimal("6.67"), tarifications.get(1).getPrice());
+		assertEquals(false, tarifications.get(1).isActive());
+		
+		assertEquals(TarificationTypeEnum.GIFT, tarifications.get(2).getType());
+		assertEquals(new BigDecimal("1.80"), ((GiftTarification)tarifications.get(2)).getGiftPrice());
+		assertEquals(false, tarifications.get(2).isActive());
+		
+		assertEquals(TarificationTypeEnum.NORMAL, tarifications.get(3).getType());
+		assertEquals(new BigDecimal(12), tarifications.get(3).getPrice());
+		assertEquals(true, tarifications.get(3).isActive());
+		
+		
 	}
 	
 	private ProductPriceGenerator getProductPriceGenerator() {
