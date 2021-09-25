@@ -23,10 +23,6 @@ import com.producttarification.tarification.models.Tarification;
  */
 public class ProductPriceGeneratroTest {
 	
-	public static final String GROUP = "group";
-	public static final String NORMAL = "normal";
-	public static final String GIFT = "gift";
-	
 	private Product productStub(int type) {
 		if(type == 1) {
 			Tarification tarification = new Tarification(1, new BigDecimal(20), TarificationTypeEnum.NORMAL);
@@ -51,7 +47,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateNormalProductPriceTest() {
 		Product product = productStub(1);
-		 new ProductPriceGenerator().fixPrice(product);
+		getProductPriceGenerator().fixPrice(product);
 		 BigDecimal price = product.getTarification().getPrice();
 		assertEquals("ERROR",  new BigDecimal(20), price);
 	}
@@ -59,7 +55,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceOf4ProductWithPriceOf3OfProduct() {
 		Product product = productStub(2);
-		 new ProductPriceGenerator().fixPrice(product);
+		getProductPriceGenerator().fixPrice(product);
 		 BigDecimal price = product.getTarification().getPrice().multiply(new BigDecimal(4));
 		assertEquals(new BigDecimal("26.68"), price);
 		
@@ -68,7 +64,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceOf4OunceWithPriceOf1PoundTest() {
 		Product product = productStub(3);
-		 new ProductPriceGenerator().fixPrice(product);
+		getProductPriceGenerator().fixPrice(product);
 		 BigDecimal price = product.getTarification().getPrice().multiply(new BigDecimal(4));
 		assertEquals(new BigDecimal("0.24"), price);
 		
@@ -77,7 +73,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceForGiftProductWheWeBuy2ProductAndGet1Test() {
 		Product product = productStub(4);
-		 new ProductPriceGenerator().fixPrice(product);
+		getProductPriceGenerator().fixPrice(product);
 		 BigDecimal price = ((GiftTarification)product.getTarification()).getGiftPrice();
 		assertEquals(new BigDecimal("6.67"), price);
 		
@@ -86,7 +82,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceForGiftProductWheWeBuy3ProductAndGet2Test() {
 		Product product = productStub(5);
-		 new ProductPriceGenerator().fixPrice(product);
+		getProductPriceGenerator().fixPrice(product);
 		 BigDecimal price = ((GiftTarification)product.getTarification()).getGiftPrice();
 		assertEquals(new BigDecimal("1.80"), price);
 		
@@ -117,5 +113,9 @@ public class ProductPriceGeneratroTest {
 		
 		assertEquals(true,giftTarificationGenerator!=null && 
 				giftTarificationGenerator instanceof GiftTaricationGenerator);
+	}
+	
+	private ProductPriceGenerator getProductPriceGenerator() {
+		return new ProductPriceGenerator();
 	}
 }
