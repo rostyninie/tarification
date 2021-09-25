@@ -55,8 +55,25 @@ public class ProductPriceGenerator implements IProductPriceGenerator {
 	 */
 	@Override
 	public List<Tarification> getChronologieTarificationsOfProductForAudit(Product product){
-		return null;
+		if(product != null && product.getTarification() != null && product.getTarification().getPriviousTarification() != null) {
+			List<Tarification> tarifications = new ArrayList<>();
+			getPreviousTarificationOfTarification(product.getTarification(), tarifications);
+			Collections.reverse(tarifications);
+			return tarifications;
+		}else {
+			return Collections.emptyList();
+		}
 	}
 	
+	private void getPreviousTarificationOfTarification(Tarification  tarification, List<Tarification> tarifications){
+
+		tarifications.add(tarification);
+		if(hasPreviousTarification(tarification)) {
+			getPreviousTarificationOfTarification(tarification.getPriviousTarification(), tarifications);
+		}
+	}
 	
+	private boolean hasPreviousTarification(Tarification  tarification) {
+		return tarification.getPriviousTarification()!=null;
+	}
 }
