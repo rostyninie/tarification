@@ -40,10 +40,10 @@ public class ProductPriceGeneratroTest {
 			Tarification tarification = new GroupTarification(1, null, TarificationTypeEnum.GROUP, 16, new BigDecimal(1));
 			return new Product(1,"001", tarification);
 		}else if(type == 4){
-			Tarification tarification = new GiftTarification(1, new BigDecimal(10), TarificationTypeEnum.GIFG, null, 2, 1);
+			Tarification tarification = new GiftTarification(1, new BigDecimal(10), TarificationTypeEnum.GIFT, null, 2, 1);
 			return new Product(1,"001", tarification);
 		}else {
-			Tarification tarification = new GiftTarification(1, new BigDecimal(3), TarificationTypeEnum.GIFG, null, 3, 2);
+			Tarification tarification = new GiftTarification(1, new BigDecimal(3), TarificationTypeEnum.GIFT, null, 3, 2);
 			return new Product(1,"001", tarification);
 		}
 	}
@@ -108,7 +108,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void getGiftTarificationGeneratorTest() {
 		TarificationGenerator giftTarificationGenerator = new TarificationGeneratorFactory()
-				                                             .getGenerator(TarificationTypeEnum.GIFG);
+				                                             .getGenerator(TarificationTypeEnum.GIFT);
 		
 		assertEquals(true,giftTarificationGenerator!=null && 
 				giftTarificationGenerator instanceof GiftTaricationGenerator);
