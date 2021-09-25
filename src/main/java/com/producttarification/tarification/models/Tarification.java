@@ -2,12 +2,14 @@ package com.producttarification.tarification.models;
 
 import java.math.BigDecimal;
 
+import com.producttarification.tarification.enums.TarificationTypeEnum;
+
 public class Tarification {
 	private long tarificationId;
 	private BigDecimal price;
-	private String type;
+	private TarificationTypeEnum type;
 	
-	public Tarification(long tarificationId, BigDecimal price, String type) {
+	public Tarification(long tarificationId, BigDecimal price, TarificationTypeEnum type) {
 		
 		this.tarificationId = tarificationId;
 		this.price = price;
@@ -30,11 +32,11 @@ public class Tarification {
 		this.price = price;
 	}
 
-	public String getType() {
+	public TarificationTypeEnum getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(TarificationTypeEnum type) {
 		this.type = type;
 	}	
 

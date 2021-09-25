@@ -2,12 +2,14 @@ package com.producttarification.tarification.models;
 
 import java.math.BigDecimal;
 
+import com.producttarification.tarification.enums.TarificationTypeEnum;
+
 public class GroupTarification extends Tarification {
 
 	private int numberProductByGroup;
 	private BigDecimal priceOfGroup;
 	
-	public GroupTarification(long tarificationId, BigDecimal price, String type, int numberProductByGroup,
+	public GroupTarification(long tarificationId, BigDecimal price, TarificationTypeEnum type, int numberProductByGroup,
 			BigDecimal priceOfGroup) {
 		
 		super(tarificationId, price, type);

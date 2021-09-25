@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.producttarification.tarification.business.ProductPriceGenerator;
+import com.producttarification.tarification.enums.TarificationTypeEnum;
 import com.producttarification.tarification.models.GiftTarification;
 import com.producttarification.tarification.models.GroupTarification;
 import com.producttarification.tarification.models.Product;
@@ -23,21 +24,21 @@ public class ProductPriceGeneratroTest {
 	
 	private Product productStub(int type) {
 		if(type == 1) {
-			Tarification tarification = new Tarification(1, new BigDecimal(20), NORMAL);
+			Tarification tarification = new Tarification(1, new BigDecimal(20), TarificationTypeEnum.NORMAL);
 		return new Product(1,"001", tarification);
 		}else if(type == 2) {
-			Tarification tarification = new GroupTarification(1, null, GROUP, 3, new BigDecimal(20));
+			Tarification tarification = new GroupTarification(1, null, TarificationTypeEnum.GROUP, 3, new BigDecimal(20));
 			return new Product(1,"001", tarification);
 		}else if(type == 3)  {
 			// we know that 1 pound = 16 ounces
 			// we difine the group price for 16 ounces directly
-			Tarification tarification = new GroupTarification(1, null, GROUP, 16, new BigDecimal(1));
+			Tarification tarification = new GroupTarification(1, null, TarificationTypeEnum.GROUP, 16, new BigDecimal(1));
 			return new Product(1,"001", tarification);
 		}else if(type == 4){
-			Tarification tarification = new GiftTarification(1, new BigDecimal(10), GIFT, null, 2, 1);
+			Tarification tarification = new GiftTarification(1, new BigDecimal(10), TarificationTypeEnum.GIFG, null, 2, 1);
 			return new Product(1,"001", tarification);
 		}else {
-			Tarification tarification = new GiftTarification(1, new BigDecimal(3), GIFT, null, 3, 2);
+			Tarification tarification = new GiftTarification(1, new BigDecimal(3), TarificationTypeEnum.GIFG, null, 3, 2);
 			return new Product(1,"001", tarification);
 		}
 	}

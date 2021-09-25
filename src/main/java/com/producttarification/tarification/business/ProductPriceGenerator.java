@@ -3,25 +3,22 @@ package com.producttarification.tarification.business;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.producttarification.tarification.enums.TarificationTypeEnum;
 import com.producttarification.tarification.models.GiftTarification;
 import com.producttarification.tarification.models.GroupTarification;
 import com.producttarification.tarification.models.Product;
 
 public class ProductPriceGenerator {
 	
-	public static final String GROUP = "group";
-	public static final String NORMAL = "normal";
-	public static final String GIFT = "gift";
-
 	/**
 	 * fix price of product
 	 * @param product
 	 * @return
 	 */
 	public BigDecimal fixPrice(Product product) {
-		if(product.getTarification().getType().equals(NORMAL)) {
+		if(product.getTarification().getType().equals(TarificationTypeEnum.NORMAL)) {
 			return product.getTarification().getPrice();
-		}else if(product.getTarification().getType().equals(GROUP)) {
+		}else if(product.getTarification().getType().equals(TarificationTypeEnum.GROUP)) {
 			/*fix the price of product when we have price of group of product by divide the price of group
 			of product by number of product in group*/
 			
