@@ -38,8 +38,11 @@ public class ProductPriceGeneratroTest {
 		}else if(type == 4){
 			Tarification tarification = new GiftTarification(1, new BigDecimal(10), TarificationTypeEnum.GIFT, null, 2, 1);
 			return new Product(1,"001", tarification);
-		}else {
+		}else if(type == 5){
 			Tarification tarification = new GiftTarification(1, new BigDecimal(3), TarificationTypeEnum.GIFT, null, 3, 2);
+			return new Product(1,"001", tarification);
+		}else {
+			Tarification tarification = new GiftTarification(1, new BigDecimal(3), TarificationTypeEnum.GROUP, null, 3, 2);
 			return new Product(1,"001", tarification);
 		}
 	}
@@ -115,7 +118,17 @@ public class ProductPriceGeneratroTest {
 				giftTarificationGenerator instanceof GiftTaricationGenerator);
 	}
 	
+	/*
+	 * When we pass bad type of tarification throw IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void throwExceptionWhenWePassBadTypeOfTarification() {
+		Product product = productStub(6);
+		getProductPriceGenerator().fixPrice(product);
+	}
+	
 	private ProductPriceGenerator getProductPriceGenerator() {
 		return new ProductPriceGenerator();
 	}
+	
 }

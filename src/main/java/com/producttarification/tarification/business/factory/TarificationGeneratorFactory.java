@@ -21,6 +21,9 @@ public class TarificationGeneratorFactory {
 		tarificationGeneratorProvider.put(TarificationTypeEnum.GIFT, GiftTaricationGenerator::new);
 	}
 	
+	/*
+	 * Provide tarification generator by tarification type
+	 */
 	public TarificationGenerator getGenerator(TarificationTypeEnum type) {
 		return tarificationGeneratorProvider.get(type).get();
 	}
