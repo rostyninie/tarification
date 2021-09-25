@@ -9,6 +9,7 @@ public class ProductPriceGenerator {
 	
 	public static final String GROUP = "group";
 	public static final String NORMAL = "normal";
+	public static final String GIFT = "gift";
 
 	/**
 	 * fix price of product
@@ -18,13 +19,24 @@ public class ProductPriceGenerator {
 	public BigDecimal fixPrice(Product product) {
 		if(product.getType().equals(NORMAL)) {
 			return product.getPrice();
-		}else {
+		}else if(product.getType().equals(GROUP)) {
 			//fix the price of product when we have price of group of product by divide the price of group
 			//of product by number of product in group
+
 			BigDecimal price = product.getPriceOfGroup()
 					.divide(new BigDecimal(product.getNumberProductByGroup()), 2, RoundingMode.HALF_DOWN);
+			
 			product.setPrice(price);
+			
 			return price;
+		}else {
+			
+			BigDecimal giftPrice = product.getPrice().multiply(new BigDecimal(product.getNumberProductForGetGift()))
+					.divide(new BigDecimal(product.getNumberProductForGetGift()+product.getNumberOfGift()), 2, RoundingMode.HALF_DOWN);
+			
+			product.setGiftPrice(giftPrice);
+			
+			return giftPrice;
 		}
 		
 	}

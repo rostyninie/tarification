@@ -16,6 +16,7 @@ public class ProductPriceGeneratroTest {
 	
 	public static final String GROUP = "group";
 	public static final String NORMAL = "normal";
+	public static final String GIFT = "gift";
 	
 	private Product productStub(int type) {
 		if(type == 1) {
@@ -26,8 +27,10 @@ public class ProductPriceGeneratroTest {
 			// we know that 1 pound = 16 ounces
 			// we difine the group price for 16 ounces directly
 			return new Product("001", null, GROUP, 16, new BigDecimal(1));
+		}else if(type == 4){
+			return new Product("001", new BigDecimal(10), GIFT, null, 2,1);
 		}else {
-			return new Product("001", new BigDecimal(10), NORMAL);
+			return new Product("001", new BigDecimal(3), GIFT, null, 3,2);
 		}
 	}
  
@@ -58,7 +61,15 @@ public class ProductPriceGeneratroTest {
 	public void generateProductPriceForGiftProductWheWeBuy2ProductAndGet1Test() {
 		Product product = productStub(4);
 		BigDecimal price = new ProductPriceGenerator().fixPrice(product);
-		assertEquals(new BigDecimal("6.68"), price);
+		assertEquals(new BigDecimal("6.67"), price);
+		
+	}
+	
+	@Test
+	public void generateProductPriceForGiftProductWheWeBuy3ProductAndGet2Test() {
+		Product product = productStub(5);
+		BigDecimal price = new ProductPriceGenerator().fixPrice(product);
+		assertEquals(new BigDecimal("1.80"), price);
 		
 	}
 }
