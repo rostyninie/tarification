@@ -88,6 +88,12 @@ public class Tarification {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Tarification [tarificationId=" + tarificationId + ", price=" + price + ", type=" + type
+				 + ", active=" + active + "]";
 	}	
 	
 	
