@@ -12,6 +12,10 @@ public class NormalTarificationGenerator implements TarificationGenerator {
 	 */
 	@Override
 	public Tarification fixPrice(Tarification tarification) {
+		if(tarification instanceof Tarification == false) {
+			String message = String.format("can not generate fix price of Normal tarification with Normal %s", tarification.getClass().getSimpleName());
+			throw new IllegalArgumentException(message);
+		}
 		return tarification;
 	}
 

@@ -21,15 +21,22 @@ public class GroupTarificationGenerator implements TarificationGenerator {
 		/*fix the price of product when we have price of group of product by divide the price of group
 		of product by number of product in group*/
 		
-		if(tarification instanceof GroupTarification && 
-				((GroupTarification)tarification).getNumberProductByGroup()>0) {
+		if(tarification instanceof GroupTarification) {
+			groupTarification = (GroupTarification)tarification;
+				if(((GroupTarification)tarification).getNumberProductByGroup()>0) {
 			
-		    groupTarification = (GroupTarification)tarification;
-			
-		    BigDecimal price = groupTarification.getPriceOfGroup()
-				.divide(new BigDecimal(groupTarification.getNumberProductByGroup()), 2, RoundingMode.HALF_DOWN);
-		
-			groupTarification.setPrice(price);
+				    BigDecimal price = groupTarification.getPriceOfGroup()
+						.divide(new BigDecimal(groupTarification.getNumberProductByGroup()), 2, RoundingMode.HALF_DOWN);
+				
+					groupTarification.setPrice(price);
+		       }else {
+					String message = String.format("can not generate fix price of Group tarification with NumberProductByGrou = %d "
+							, groupTarification.getNumberProductByGroup());
+					throw new IllegalArgumentException(message);
+				}
+		}else {
+			String message = String.format("can not generate fix price of Group tarification with %s", tarification.getClass().getSimpleName());
+			throw new IllegalArgumentException(message);
 		}
 		
 		return groupTarification;

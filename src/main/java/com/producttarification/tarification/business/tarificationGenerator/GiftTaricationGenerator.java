@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 
 import com.producttarification.tarification.ibusiness.TarificationGenerator;
 import com.producttarification.tarification.models.GiftTarification;
-import com.producttarification.tarification.models.GroupTarification;
 import com.producttarification.tarification.models.Tarification;
 
 public class GiftTaricationGenerator implements TarificationGenerator {
@@ -27,7 +26,14 @@ public class GiftTaricationGenerator implements TarificationGenerator {
 				
 				giftTarification.setGiftPrice(giftPrice);
 				
+			}else {
+				String message = String.format("can not generate fix price of Gift tarification with NumberProductForGetGift = %d "
+						+ " and NumberOfGift = %d", giftTarification.getNumberProductForGetGift(), giftTarification.getNumberOfGift());
+				throw new IllegalArgumentException(message);
 			}
+		}else {
+			String message = String.format("can not generate fix price of Gift tarification with %s", tarification.getClass().getSimpleName());
+			throw new IllegalArgumentException(message);
 		}
 		return giftTarification;
 	}
