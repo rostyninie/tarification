@@ -32,6 +32,34 @@ public class GroupTarification extends Tarification {
 	public void setPriceOfGroup(BigDecimal priceOfGroup) {
 		this.priceOfGroup = priceOfGroup;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + numberProductByGroup;
+		result = prime * result + ((priceOfGroup == null) ? 0 : priceOfGroup.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GroupTarification other = (GroupTarification) obj;
+		if (numberProductByGroup != other.numberProductByGroup)
+			return false;
+		if (priceOfGroup == null) {
+			if (other.priceOfGroup != null)
+				return false;
+		} else if (!priceOfGroup.equals(other.priceOfGroup))
+			return false;
+		return true;
+	}
 	
 	
 	
