@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.producttarification.tarification.business.ProductPriceGenerator;
+import com.producttarification.tarification.business.ProductTarificationControl;
 import com.producttarification.tarification.business.factory.TarificationGeneratorFactory;
 import com.producttarification.tarification.business.tarificationgenerator.GiftTaricationGenerator;
 import com.producttarification.tarification.business.tarificationgenerator.GroupTarificationGenerator;
 import com.producttarification.tarification.business.tarificationgenerator.NormalTarificationGenerator;
 import com.producttarification.tarification.enums.TarificationTypeEnum;
-import com.producttarification.tarification.ibusiness.IProductPriceGenerator;
+import com.producttarification.tarification.ibusiness.IProductTarificationControl;
 import com.producttarification.tarification.ibusiness.TarificationGenerator;
 import com.producttarification.tarification.models.GiftTarification;
 import com.producttarification.tarification.models.GroupTarification;
@@ -62,7 +62,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateNormalProductPriceTest() {
 		Product product = productStub(1);
-		getProductPriceGenerator().fixPrice(product);
+		getProductTarificationControl().fixPrice(product);
 		 BigDecimal price = product.getTarification().getPrice();
 		assertEquals("ERROR",  new BigDecimal(20), price);
 	}
@@ -70,7 +70,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceOf4ProductWithPriceOf3OfProduct() {
 		Product product = productStub(2);
-		getProductPriceGenerator().fixPrice(product);
+		getProductTarificationControl().fixPrice(product);
 		 BigDecimal price = product.getTarification().getPrice().multiply(new BigDecimal(4));
 		assertEquals(new BigDecimal("26.68"), price);
 		
@@ -79,7 +79,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceOf4OunceWithPriceOf1PoundTest() {
 		Product product = productStub(3);
-		getProductPriceGenerator().fixPrice(product);
+		getProductTarificationControl().fixPrice(product);
 		 BigDecimal price = product.getTarification().getPrice().multiply(new BigDecimal(4));
 		assertEquals(new BigDecimal("0.24"), price);
 		
@@ -88,7 +88,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceForGiftProductWheWeBuy2ProductAndGet1Test() {
 		Product product = productStub(4);
-		getProductPriceGenerator().fixPrice(product);
+		getProductTarificationControl().fixPrice(product);
 		 BigDecimal price = ((GiftTarification)product.getTarification()).getGiftPrice();
 		assertEquals(new BigDecimal("6.67"), price);
 		
@@ -97,7 +97,7 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void generateProductPriceForGiftProductWheWeBuy3ProductAndGet2Test() {
 		Product product = productStub(5);
-		getProductPriceGenerator().fixPrice(product);
+		getProductTarificationControl().fixPrice(product);
 		 BigDecimal price = ((GiftTarification)product.getTarification()).getGiftPrice();
 		assertEquals(new BigDecimal("1.80"), price);
 		
@@ -145,7 +145,7 @@ public class ProductPriceGeneratroTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void throwExceptionWhenWePassBadTypeOfTarification() {
 		Product product = productStub(6);
-		getProductPriceGenerator().fixPrice(product);
+		getProductTarificationControl().fixPrice(product);
 	}
 	
 	/*
@@ -155,7 +155,7 @@ public class ProductPriceGeneratroTest {
 	public void productChangeTarificationTest() {
 		Product product = productStub(1);
 		Tarification tarification =  tarificationStub(1);
-		getProductPriceGenerator().changeProductTarification(product, tarification);
+		getProductTarificationControl().changeProductTarification(product, tarification);
 		
 		assertEquals(TarificationTypeEnum.GROUP, product.getTarification().getType());
 		assertEquals(true, product.getTarification().isActive());
@@ -172,9 +172,9 @@ public class ProductPriceGeneratroTest {
 	public void productChangeTarificationAndFixPriceOfNewTarificationTest() {
 		Product product = productStub(1);
 		Tarification tarification =  tarificationStub(1);
-		IProductPriceGenerator productPriceTarification = getProductPriceGenerator();
-		productPriceTarification.fixPrice(product);
-		productPriceTarification.changeProductTarification(product, tarification);
+		IProductTarificationControl productTarificationControl = getProductTarificationControl();
+		productTarificationControl.fixPrice(product);
+		productTarificationControl.changeProductTarification(product, tarification);
 		
 		assertEquals(TarificationTypeEnum.GROUP, product.getTarification().getType());
 		assertEquals(true, product.getTarification().isActive());
@@ -191,15 +191,15 @@ public class ProductPriceGeneratroTest {
 	@Test
 	public void getChronologieOfTarificationsOfProduct() {
 		Product product = productStub(1);
-		IProductPriceGenerator productPriceTarification = getProductPriceGenerator();
-		productPriceTarification.fixPrice(product);
+		IProductTarificationControl productTarificationControl = getProductTarificationControl();
+		productTarificationControl.fixPrice(product);
 		Tarification tarification1 =  tarificationStub(1);
-		productPriceTarification.changeProductTarification(product, tarification1);
+		productTarificationControl.changeProductTarification(product, tarification1);
 		Tarification tarification2 =  tarificationStub(2);
-		productPriceTarification.changeProductTarification(product, tarification2);
+		productTarificationControl.changeProductTarification(product, tarification2);
 		Tarification tarification3 =  tarificationStub(3);
-		productPriceTarification.changeProductTarification(product, tarification3);
-		List<Tarification> tarifications = productPriceTarification.getChronologieTarificationsOfProductForAudit(product);
+		productTarificationControl.changeProductTarification(product, tarification3);
+		List<Tarification> tarifications = productTarificationControl.getChronologieTarificationsOfProductForAudit(product);
 		
 		assertEquals(TarificationTypeEnum.NORMAL, tarifications.get(0).getType());
 		assertEquals(new BigDecimal(20), tarifications.get(0).getPrice());
@@ -220,8 +220,8 @@ public class ProductPriceGeneratroTest {
 		
 	}
 	
-	private ProductPriceGenerator getProductPriceGenerator() {
-		return new ProductPriceGenerator();
+	private ProductTarificationControl getProductTarificationControl() {
+		return new ProductTarificationControl();
 	}
 	
 	

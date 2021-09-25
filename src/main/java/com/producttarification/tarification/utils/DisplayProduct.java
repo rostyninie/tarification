@@ -2,9 +2,9 @@ package com.producttarification.tarification.utils;
 
 import java.util.List;
 
-import com.producttarification.tarification.business.ProductPriceGenerator;
+import com.producttarification.tarification.business.ProductTarificationControl;
 import com.producttarification.tarification.enums.TarificationTypeEnum;
-import com.producttarification.tarification.ibusiness.IProductPriceGenerator;
+import com.producttarification.tarification.ibusiness.IProductTarificationControl;
 import com.producttarification.tarification.models.GiftTarification;
 import com.producttarification.tarification.models.Product;
 import com.producttarification.tarification.models.Tarification;
@@ -27,7 +27,7 @@ public class DisplayProduct {
 	    
 	    public static void displayChronologieTarificationOfProduct(Product product) {
 	    	
-	    	IProductPriceGenerator productPricegGenerator = new ProductPriceGenerator();
+	    	IProductTarificationControl productPricegGenerator = new ProductTarificationControl();
 	    	List<Tarification> tarifications = productPricegGenerator.getChronologieTarificationsOfProductForAudit(product);
 	    	
 	    	if(!tarifications.isEmpty()) {

@@ -5,7 +5,7 @@ import java.util.List;
 import com.producttarification.tarification.models.Product;
 import com.producttarification.tarification.models.Tarification;
 
-public interface IProductPriceGenerator {
+public interface IProductTarificationControl {
 	
 	void fixPrice(Product product) ;
 	

@@ -1,7 +1,5 @@
 package com.producttarification.tarification.models;
 
-import java.math.BigDecimal;
-
 public class Product {
 	
 	private long productId;

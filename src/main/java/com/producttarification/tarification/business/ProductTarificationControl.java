@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import com.producttarification.tarification.business.factory.TarificationGeneratorFactory;
-import com.producttarification.tarification.ibusiness.IProductPriceGenerator;
+import com.producttarification.tarification.ibusiness.IProductTarificationControl;
 import com.producttarification.tarification.models.Product;
 import com.producttarification.tarification.models.Tarification;
 
 
-public class ProductPriceGenerator implements IProductPriceGenerator {
+public class ProductTarificationControl implements IProductTarificationControl {
 	
 	/**
 	 * fix price of product
