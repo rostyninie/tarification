@@ -61,6 +61,4 @@ public class GroupTarification extends Tarification {
 		return true;
 	}
 	
-	
-	
 }

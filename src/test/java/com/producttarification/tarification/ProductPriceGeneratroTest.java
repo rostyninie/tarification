@@ -7,7 +7,12 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.producttarification.tarification.business.ProductPriceGenerator;
+import com.producttarification.tarification.business.factory.TarificationGeneratorFactory;
+import com.producttarification.tarification.business.tarificationGenerator.GiftTaricationGenerator;
+import com.producttarification.tarification.business.tarificationGenerator.GroupTarificationGenerator;
+import com.producttarification.tarification.business.tarificationGenerator.NormalTarificationGenerator;
 import com.producttarification.tarification.enums.TarificationTypeEnum;
+import com.producttarification.tarification.ibusiness.TarificationGenerator;
 import com.producttarification.tarification.models.GiftTarification;
 import com.producttarification.tarification.models.GroupTarification;
 import com.producttarification.tarification.models.Product;
@@ -80,5 +85,32 @@ public class ProductPriceGeneratroTest {
 		BigDecimal price = new ProductPriceGenerator().fixPrice(product);
 		assertEquals(new BigDecimal("1.80"), price);
 		
+	}
+	
+	@Test
+	public void getNormalTarificationGeneratorTest() {
+		TarificationGenerator normalTarificationGenerator = new TarificationGeneratorFactory()
+				                                             .getGenerator(TarificationTypeEnum.NORMAL);
+		
+		assertEquals(true,normalTarificationGenerator!=null && 
+				normalTarificationGenerator instanceof NormalTarificationGenerator);
+	}
+	
+	@Test
+	public void getGroupTarificationGeneratorTest() {
+		TarificationGenerator groupTarificationGenerator = new TarificationGeneratorFactory()
+				                                             .getGenerator(TarificationTypeEnum.GROUP);
+		
+		assertEquals(true,groupTarificationGenerator!=null && 
+				groupTarificationGenerator instanceof GroupTarificationGenerator);
+	}
+	
+	@Test
+	public void getGiftTarificationGeneratorTest() {
+		TarificationGenerator giftTarificationGenerator = new TarificationGeneratorFactory()
+				                                             .getGenerator(TarificationTypeEnum.GIFG);
+		
+		assertEquals(true,giftTarificationGenerator!=null && 
+				giftTarificationGenerator instanceof GiftTaricationGenerator);
 	}
 }
