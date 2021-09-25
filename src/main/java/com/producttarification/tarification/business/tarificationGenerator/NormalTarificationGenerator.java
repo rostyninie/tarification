@@ -1,4 +1,4 @@
-package com.producttarification.tarification.business.tarificationGenerator;
+package com.producttarification.tarification.business.tarificationgenerator;
 
 import com.producttarification.tarification.ibusiness.TarificationGenerator;
 import com.producttarification.tarification.models.Tarification;
@@ -12,7 +12,7 @@ public class NormalTarificationGenerator implements TarificationGenerator {
 	 */
 	@Override
 	public Tarification fixPrice(Tarification tarification) {
-		if(tarification instanceof Tarification == false) {
+		if(tarification instanceof Tarification == false) { // check if is right instance of tarification
 			String message = String.format("can not generate fix price of Normal tarification with Normal %s", tarification.getClass().getSimpleName());
 			throw new IllegalArgumentException(message);
 		}

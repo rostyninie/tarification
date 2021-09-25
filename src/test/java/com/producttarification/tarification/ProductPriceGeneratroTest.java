@@ -8,9 +8,9 @@ import org.junit.Test;
 
 import com.producttarification.tarification.business.ProductPriceGenerator;
 import com.producttarification.tarification.business.factory.TarificationGeneratorFactory;
-import com.producttarification.tarification.business.tarificationGenerator.GiftTaricationGenerator;
-import com.producttarification.tarification.business.tarificationGenerator.GroupTarificationGenerator;
-import com.producttarification.tarification.business.tarificationGenerator.NormalTarificationGenerator;
+import com.producttarification.tarification.business.tarificationgenerator.GiftTaricationGenerator;
+import com.producttarification.tarification.business.tarificationgenerator.GroupTarificationGenerator;
+import com.producttarification.tarification.business.tarificationgenerator.NormalTarificationGenerator;
 import com.producttarification.tarification.enums.TarificationTypeEnum;
 import com.producttarification.tarification.ibusiness.TarificationGenerator;
 import com.producttarification.tarification.models.GiftTarification;
@@ -91,6 +91,9 @@ public class ProductPriceGeneratroTest {
 		
 	}
 	
+	/*
+	 * when the product tarification type is Normal then provide the NormalTarificationGenerator
+	 */
 	@Test
 	public void getNormalTarificationGeneratorTest() {
 		TarificationGenerator normalTarificationGenerator = new TarificationGeneratorFactory()
@@ -100,6 +103,9 @@ public class ProductPriceGeneratroTest {
 				normalTarificationGenerator instanceof NormalTarificationGenerator);
 	}
 	
+	/*
+	 * when the product tarification type is Group then provide the GroupTarificationGenerator
+	 */
 	@Test
 	public void getGroupTarificationGeneratorTest() {
 		TarificationGenerator groupTarificationGenerator = new TarificationGeneratorFactory()
@@ -109,6 +115,9 @@ public class ProductPriceGeneratroTest {
 				groupTarificationGenerator instanceof GroupTarificationGenerator);
 	}
 	
+	/*
+	 * when the product tarification type is Gift then provide the GiftTarificationGenerator
+	 */
 	@Test
 	public void getGiftTarificationGeneratorTest() {
 		TarificationGenerator giftTarificationGenerator = new TarificationGeneratorFactory()

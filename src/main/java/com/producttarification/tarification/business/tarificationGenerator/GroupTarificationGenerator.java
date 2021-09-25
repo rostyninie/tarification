@@ -1,4 +1,4 @@
-package com.producttarification.tarification.business.tarificationGenerator;
+package com.producttarification.tarification.business.tarificationgenerator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,9 +21,10 @@ public class GroupTarificationGenerator implements TarificationGenerator {
 		/*fix the price of product when we have price of group of product by divide the price of group
 		of product by number of product in group*/
 		
-		if(tarification instanceof GroupTarification) {
+		if(tarification instanceof GroupTarification) {  // check if is right instance of tarification
 			groupTarification = (GroupTarification)tarification;
-				if(((GroupTarification)tarification).getNumberProductByGroup()>0) {
+				if(((GroupTarification)tarification).getNumberProductByGroup()>0) { /* check NumberProductByGroup()
+				 to avoid division by 0 */
 			
 				    BigDecimal price = groupTarification.getPriceOfGroup()
 						.divide(new BigDecimal(groupTarification.getNumberProductByGroup()), 2, RoundingMode.HALF_DOWN);

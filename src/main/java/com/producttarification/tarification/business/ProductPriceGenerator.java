@@ -13,6 +13,7 @@ public class ProductPriceGenerator {
 	 */
 	public void fixPrice(Product product) {
 		
+		//use TarificationGeneratorFactory for get the right arificationGenerator of the product qualification type
 		Tarification tarification = new TarificationGeneratorFactory()
 				.getGenerator(product.getTarification().getType()).fixPrice(product.getTarification());
 		

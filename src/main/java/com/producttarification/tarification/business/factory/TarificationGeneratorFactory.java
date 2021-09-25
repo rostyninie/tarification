@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import com.producttarification.tarification.business.tarificationGenerator.GiftTaricationGenerator;
-import com.producttarification.tarification.business.tarificationGenerator.GroupTarificationGenerator;
-import com.producttarification.tarification.business.tarificationGenerator.NormalTarificationGenerator;
+import com.producttarification.tarification.business.tarificationgenerator.GiftTaricationGenerator;
+import com.producttarification.tarification.business.tarificationgenerator.GroupTarificationGenerator;
+import com.producttarification.tarification.business.tarificationgenerator.NormalTarificationGenerator;
 import com.producttarification.tarification.enums.TarificationTypeEnum;
 import com.producttarification.tarification.ibusiness.TarificationGenerator;
 

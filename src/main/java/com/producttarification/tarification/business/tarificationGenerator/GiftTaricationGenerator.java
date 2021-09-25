@@ -1,4 +1,4 @@
-package com.producttarification.tarification.business.tarificationGenerator;
+package com.producttarification.tarification.business.tarificationgenerator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,9 +16,10 @@ public class GiftTaricationGenerator implements TarificationGenerator {
 		 the number of product to get gift plus the number of gift product*/
 		
 		
-		if(tarification instanceof GiftTarification) {
+		if(tarification instanceof GiftTarification) { // check if is right instance of tarification
 			giftTarification = (GiftTarification)tarification;
-			if((giftTarification.getNumberProductForGetGift() + giftTarification.getNumberOfGift())>0) {
+			if((giftTarification.getNumberProductForGetGift() + giftTarification.getNumberOfGift())>0) { /* check 
+				 NumberProductForGetGift and NumberOfGift to avoid division by 0 */
 				
 				BigDecimal giftPrice = giftTarification.getPrice().multiply(new BigDecimal(giftTarification.getNumberProductForGetGift()))
 						.divide(new BigDecimal(giftTarification.getNumberProductForGetGift()+giftTarification.getNumberOfGift()),
