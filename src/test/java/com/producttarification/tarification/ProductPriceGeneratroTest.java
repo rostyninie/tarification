@@ -46,6 +46,10 @@ public class ProductPriceGeneratroTest {
 			return new Product(1,"001", tarification);
 		}
 	}
+	
+	private Tarification tarificationStub() {
+		return new GroupTarification(1, null, TarificationTypeEnum.GROUP, 3, new BigDecimal(20));
+	}
  
 	@Test
 	public void generateNormalProductPriceTest() {
@@ -136,8 +140,21 @@ public class ProductPriceGeneratroTest {
 		getProductPriceGenerator().fixPrice(product);
 	}
 	
+	@Test
+	public void productChangeTarificationTest() {
+		Product product = productStub(1);
+		Tarification tarification =  tarificationStub();
+		getProductPriceGenerator().changeProductTarification(product, tarification);
+		assertEquals(TarificationTypeEnum.GROUP, product.getTarification().getType());
+		assertEquals(true, product.getTarification().isActive());
+		assertEquals(TarificationTypeEnum.NORMAL, product.getTarification().getPriviousTarification().getType());
+		assertEquals(false, product.getTarification().getPriviousTarification().isActive());
+		
+	}
+	
 	private ProductPriceGenerator getProductPriceGenerator() {
 		return new ProductPriceGenerator();
 	}
+	
 	
 }

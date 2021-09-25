@@ -8,12 +8,15 @@ public class Tarification {
 	private long tarificationId;
 	private BigDecimal price;
 	private TarificationTypeEnum type;
+	private Tarification priviousTarification;
+	private boolean active;
 	
 	public Tarification(long tarificationId, BigDecimal price, TarificationTypeEnum type) {
 		
 		this.tarificationId = tarificationId;
 		this.price = price;
 		this.type = type;
+		this.active = true;
 	}
 
 	public long getTarificationId() {
@@ -38,6 +41,22 @@ public class Tarification {
 
 	public void setType(TarificationTypeEnum type) {
 		this.type = type;
+	}
+
+	public Tarification getPriviousTarification() {
+		return priviousTarification;
+	}
+
+	public void setPriviousTarification(Tarification priviousTarification) {
+		this.priviousTarification = priviousTarification;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override
