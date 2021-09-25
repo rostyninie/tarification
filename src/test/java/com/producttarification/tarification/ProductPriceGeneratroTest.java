@@ -12,6 +12,7 @@ import com.producttarification.tarification.business.tarificationgenerator.GiftT
 import com.producttarification.tarification.business.tarificationgenerator.GroupTarificationGenerator;
 import com.producttarification.tarification.business.tarificationgenerator.NormalTarificationGenerator;
 import com.producttarification.tarification.enums.TarificationTypeEnum;
+import com.producttarification.tarification.ibusiness.IProductPriceGenerator;
 import com.producttarification.tarification.ibusiness.TarificationGenerator;
 import com.producttarification.tarification.models.GiftTarification;
 import com.producttarification.tarification.models.GroupTarification;
@@ -140,6 +141,9 @@ public class ProductPriceGeneratroTest {
 		getProductPriceGenerator().fixPrice(product);
 	}
 	
+	/*
+	 * when product change tarification keep hold tarification for audit
+	 */
 	@Test
 	public void productChangeTarificationTest() {
 		Product product = productStub(1);
@@ -150,6 +154,21 @@ public class ProductPriceGeneratroTest {
 		assertEquals(TarificationTypeEnum.NORMAL, product.getTarification().getPriviousTarification().getType());
 		assertEquals(false, product.getTarification().getPriviousTarification().isActive());
 		
+	}
+	
+	@Test
+	public void productChangeTarificationAndFixPriceOfNewTarificationTest() {
+		Product product = productStub(1);
+		Tarification tarification =  tarificationStub();
+		IProductPriceGenerator productPriceTarification = getProductPriceGenerator();
+		productPriceTarification.fixPrice(product);
+		productPriceTarification.changeProductTarification(product, tarification);
+		assertEquals(TarificationTypeEnum.GROUP, product.getTarification().getType());
+		assertEquals(true, product.getTarification().isActive());
+		assertEquals(new BigDecimal("6.67"), product.getTarification().getPrice());
+		assertEquals(TarificationTypeEnum.NORMAL, product.getTarification().getPriviousTarification().getType());
+		assertEquals(false, product.getTarification().getPriviousTarification().isActive());
+		assertEquals(new BigDecimal(20), product.getTarification().getPriviousTarification().getPrice());
 	}
 	
 	private ProductPriceGenerator getProductPriceGenerator() {

@@ -16,10 +16,12 @@ public class ProductPriceGenerator implements IProductPriceGenerator {
 	public void fixPrice(Product product) {
 		
 		//use TarificationGeneratorFactory for get the right arificationGenerator of the product qualification type
+		if(product != null && product.getTarification() != null) {
 		Tarification tarification = new TarificationGeneratorFactory()
 				.getGenerator(product.getTarification().getType()).fixPrice(product.getTarification());
 		
 		product.setTarification(tarification);
+		}
 			
 	}
 	
@@ -30,6 +32,16 @@ public class ProductPriceGenerator implements IProductPriceGenerator {
 	 */
 	@Override
 	public void changeProductTarification(Product product, Tarification tarification) {
-		
+		if(product != null && tarification != null) {
+			
+			if(product.getTarification()!=null) {
+				product.getTarification().setActive(false);
+				tarification.setPriviousTarification(product.getTarification());
+			}
+			
+		product.setTarification(tarification);
+		fixPrice(product);
+				
+		}
 	}
 }
